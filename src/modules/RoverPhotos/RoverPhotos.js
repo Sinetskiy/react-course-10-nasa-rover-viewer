@@ -12,23 +12,27 @@ const photos = handleActions(
     {
         [fetchPhotosRequest]: (state, action) => {
             const {sol, name} = action.payload;
-            let obj = {};
-            let obj2 = {};
-            obj2[sol] = {isLoading: true, photos: [], isLoaded: false};
-            obj[name] = obj2;
-            return obj;
+            if (state && state.hasOwnProperty(name)) {
+                state[name][parseInt(sol)] = {isLoading: true, photos: [], isLoaded: false};
+                return state;
+            }
+            return state;
         },
         [fetchPhotosSuccess]:
             (state, action) => {
                 const {sol, name, photos} = action.payload;
-                let obj = {};
-                let obj2 = {};
-                obj2[sol] = {isLoading: false, photos, isLoaded: true};
-                obj[name] = obj2;
-                return obj;
+                if (state && state.hasOwnProperty(name)) {
+                    state[name][parseInt(sol)] = {isLoading: false, photos, isLoaded: true};
+                    return state;
+                }
+                return state;
             },
     },
-    null,
+    {
+        'curiosity': {1: {isLoading: false, photos: [], isLoaded: false}},
+        'opportunity': {1: {isLoading: false, photos: [], isLoaded: false}},
+        'spirit': {1: {isLoading: false, photos: [], isLoaded: false}}
+    },
 );
 
 const sol = handleActions(
@@ -39,6 +43,6 @@ const sol = handleActions(
 );
 
 export default combineReducers({
-    photos,
-    sol
+    sol,
+    photos
 });
