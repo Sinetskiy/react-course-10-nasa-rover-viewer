@@ -18,15 +18,14 @@ const photos = handleActions(
             }
             return state;
         },
-        [fetchPhotosSuccess]:
-            (state, action) => {
-                const {sol, name, photos} = action.payload;
-                if (state && state.hasOwnProperty(name)) {
-                    state[name][parseInt(sol)] = {isLoading: false, photos, isLoaded: true};
-                    return state;
-                }
+        [fetchPhotosSuccess]: (state, action) => {
+            const {sol, name, photos} = action.payload;
+            if (state && state.hasOwnProperty(name)) {
+                state[name][parseInt(sol)] = {isLoading: false, photos, isLoaded: true};
                 return state;
-            },
+            }
+            return state;
+        },
     },
     {
         'curiosity': {1: {isLoading: false, photos: [], isLoaded: false}},
