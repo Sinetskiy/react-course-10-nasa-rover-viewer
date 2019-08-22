@@ -1,18 +1,19 @@
 // Реализуйте саги
 import {takeLatest, select, put, call, fork, all} from 'redux-saga/effects';
 import {changeSol, fetchPhotosSuccess, fetchPhotosFailure, fetchPhotosRequest} from "./actions";
-import {getApiKey} from "../Auth";
+import {addKey, getApiKey} from "../Auth";
 import {getPhotos} from "./api";
 
 
-function* changeSolWatcher() {
+function* actionsWatcher() {
     yield takeLatest(changeSol, fetchPhotos);
+    yield takeLatest(addKey, fetchPhotos);
 }
 
 export function* fetchPhotos(action) {
 
     const apiKey = yield select(getApiKey);
-    const sol = action.payload.current;
+    const sol = action.payload.current | 1;
 
     try {
 
@@ -40,5 +41,5 @@ export function* fetchPhotos(action) {
 }
 
 export default function* () {
-    yield fork(changeSolWatcher);
+    yield fork(actionsWatcher);
 }

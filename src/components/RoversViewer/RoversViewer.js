@@ -12,59 +12,25 @@ import styles from './RoversViewer.module.css'
 import {fetchPhotosRequest, fetchPhotosFailure, fetchPhotosSuccess} from '../../modules/RoverPhotos';
 import {connect} from 'react-redux';
 import SelectSol from "../SelectSol";
+import RoverPhotos from "../RoverPhotos";
 
 class RoversViewer extends PureComponent {
 
     render() {
 
-        const {photos, sol, auth} = this.props;
-
-        console.log('curiosity', photos && photos.curiosity);
-        console.log('sol', sol && sol.current);
-        console.log(sol && `photos.curiosity[${sol.current}]`, photos && sol && photos.curiosity[parseInt(sol.current)]);
-        console.log('curiosity', photos && photos.curiosity);
+        const {photos} = this.props;
+        const sol = this.props.sol || {current: 1};
 
         return (
             <div className={styles.root}>
                 <SelectSol minSol={1} maxSol={100} selectedSol={1}/>
-                <div className="jss1 jss10 jss20">
-                    <div className="jss101 jss105 jss102 jss235">
-                        <h2 className="jss133 jss142 jss236">curiosity</h2>
-                        <ul className="jss237">
-                            {sol && photos.curiosity[parseInt(sol.current)] && photos.curiosity[parseInt(sol.current)].photos.map(
-                                v => (<li className="jss262">
-                                    <div className="jss263">
-                                        <img src={v.img_src}
-                                             alt={v.camera.full_name} className="jss264"/>
-                                    </div>
-                                </li>)
-                            )}
-                        </ul>
-                    </div>
-                    <div className="jss101 jss105 jss102 jss235"><h2 className="jss133 jss142 jss236">opportunity</h2>
-                        <ul className="jss237">
-                            {sol && photos.opportunity[sol.current] && photos.opportunity[sol.current].isLoaded && photos.opportunity[sol.current].photos.map(
-                                v => (<li className="jss262">
-                                    <div className="jss263">
-                                        <img src={v.img_src}
-                                             alt={v.camera.full_name} className="jss264"/>
-                                    </div>
-                                </li>)
-                            )}
-                        </ul>
-                    </div>
-                    <div className="jss101 jss105 jss102 jss235"><h2 className="jss133 jss142 jss236">spirit</h2>
-                        <ul className="jss237">
-                            {sol && photos.spirit[sol.current] && photos.spirit[sol.current].isLoaded && photos.spirit[sol.current].photos.map(
-                                v => (<li className="jss262">
-                                    <div className="jss263">
-                                        <img src={v.img_src}
-                                             alt={v.camera.full_name} className="jss264"/>
-                                    </div>
-                                </li>)
-                            )}
-                        </ul>
-                    </div>
+                <div className={styles.сontainer}>
+                    {sol && photos.curiosity[sol.current] && photos.curiosity[sol.current].isLoaded ?
+                        <RoverPhotos name='curiosity' photos={photos.curiosity[sol.current].photos}/> : ''}
+                    {sol && photos.opportunity[sol.current] && photos.opportunity[sol.current].isLoaded ?
+                        <RoverPhotos name='opportunity' photos={photos.opportunity[sol.current].photos}/> : ''}
+                    {sol && photos.spirit[sol.current] && photos.spirit[sol.current].isLoaded ?
+                        <RoverPhotos name='spirit' photos={photos.spirit[sol.current].photos}/> : ''}
                 </div>
             </div>
         );
