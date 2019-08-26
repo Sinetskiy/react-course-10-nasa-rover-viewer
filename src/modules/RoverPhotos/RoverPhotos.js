@@ -38,9 +38,9 @@ const photos = handleActions(
         },
     },
     {
-        'curiosity': {1: {isLoading: false, photos: [], isLoaded: false}},
-        'opportunity': {1: {isLoading: false, photos: [], isLoaded: false}},
-        'spirit': {1: {isLoading: false, photos: [], isLoaded: false}}
+        'curiosity': {},
+        'opportunity': {},
+        'spirit': {}
     },
 );
 
